@@ -19,7 +19,7 @@
 
 
         <div id="app">
-            <!-- тук се рендерира съдържанието -->
+            <!--! тук се рендерира съдържанието -->
 
 
         </div>
@@ -62,7 +62,12 @@
                 <a href="#login">Login</a>
                 <a href="#register">Register</a>
                 {{/if}}
+
+                {{#if user}}
+                <img id="profilePic" src={{user.img}} alt="profilePic">
+                {{else}}
                 <img id="profilePic" src="./assets/images/guest.png" alt="profilePic">
+                {{/if}}
             </div>
         
         
@@ -136,25 +141,37 @@
 
     <!--! register template -->
     <script type="text/x-handlebars-template" id="registerPage-template">
+
         {{>header}}
 
         <div id="register">
-        <form id="registerForm" action="#" class="loginRegform">
+
+        <form id="registerForm" action="#" class="loginRegform" onsubmit="onRegisterSubmit(event)">
     
-            <label for="registerUsername">Username:</label>
-            <input id="registerUsername" type="text" placeholder="username">
+            <label for="regUsername">Username:</label>
+            <input id="regUsername" name="regUsername" type="text" placeholder="username">
     
-            <label for="regPassword1">Password:</label>
-            <input id="regPassword1" type="password" placeholder="password">
+            <label for="regPassword">Password:</label>
+            <input id="regPassword" name="regPassword" type="password" placeholder="password">
     
-            <label for="regPassword2">Repeat password:</label>
-            <input id="regPassword2" type="password" placeholder="confirmPassword">
+            <label for="regRePassword">Repeat password:</label>
+            <input id="regRePassword" name="regRePassword" type="password" placeholder="repeat password">
+
+            <label for="regAge">Age:</label>
+            <input type="number" id="regAge" name="regAge" placeholder="age">
+
+            <label for="regAddress">User address:</label>
+            <input type="text" id="regAddress" name="regAddress" placeholder="address">
+
+            <label for="regImage">Profile picture url:</label>
+            <input type="text" id="regImage" name="regImage" placeholder="url">
     
             <p id="regErrorP" class="error"></p>
     
-            <input id="registerBtn" type="button" value="Register">
+            <input id="registerBtn" type="submit" value="Register">
             <a class="goTo" href="#login">You have an account? Go to login page.</a>
         </form>
+
     </div>
 
     </script>
@@ -193,7 +210,7 @@
 
         <div id="createRecepie">
 
-            <form id="createRecepieFrom" action="#" id="createRecForm" onsubmit="onCreateRecepieSubmit(event)">
+            <form id="createRecepieFrom" action="#" onsubmit="onCreateRecepieSubmit(event)">
 
               <label for="newRecTitle">Recepie title:</label>
               <input type="text" name="newRecTitle" id="newRecTitle" class="newRecInput">
@@ -237,20 +254,31 @@
 
     <!--! profile page template -->
     <script type="text/x-handlebars-template" id="profilePage-template">
+
         {{>header}}
         
         <div id="myProfile">
 
-                <form action="#">
+                <form action="#" id="changeUserInfoForm" onsubmit="onEditProfileSubmit(event)">
+
                     <label for="username">Username:</label>
-                    <input type="text" id="username" name="name">
+                    <input type="text" id="username" name="username" value={{user.username}}>
+
                     <label for="userAge">Age:</label>
-                    <input type="number" id="userAge" name="age">
+                    <input type="number" id="userAge" name="age" value={{user.age}}>
+
                     <label for="userAddress">User address:</label>
-                    <input type="text" name="address" id="userAddress">
+                    <input type="text" id="userAddress" name="address" value={{user.address}}>
+
                     <label for="userImage">Profile picture url:</label>
-                    <input type="text" id="profileImage" name="userImage">
-                    <button id="profileSubmitBtn">Change info</button>
+                    <input type="text" id="userImage" name="userImage" value={{user.img}}>
+
+                    <p id="editProfileInfoErrorP" class="error">All fields are required</p>
+
+
+                    <input type="submit" id="profileSubmitBtn" value="Change info">
+                    <!-- <button id="profileSubmitBtn">Change info</button> -->
+
                 </form>
 
             <div id="alertDiv">You have to fill all inputs!</div>
@@ -260,12 +288,14 @@
                     <th>Recepie</th>
                     <th>Times coocked</th>
                 </tr>
-                {{#each cookedRecepies}}
+
+                {{#each coockedRecepies}}
                 <tr>
                     <td>{{this.title}}</td>
-                    <td>{{this.timesCoocked}}</td>
+                    <td class="timesCooked">{{this.timesCooked}}</td>
                 </tr>
                 {{/each}}
+                
             </table>
 
         </div>

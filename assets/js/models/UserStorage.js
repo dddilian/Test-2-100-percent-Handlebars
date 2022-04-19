@@ -49,6 +49,18 @@ let userStorage = (function () {
             return this.users.find(user => user.username === username);
         }
 
+        changeUserInfo(newName, newAge, newAddres, newImg) {
+            let currentUser = userManager.getUserInfo(); //get the current user from localStorage
+            let user = this.getUser(currentUser.username); //get the current user form this.users
+
+            user.username = newName;
+            user.age = newAge;
+            user.address = newAddres;
+            user.img = newImg;
+            
+            userManager.updateUser(user);
+        }
+
     }
 
     return new UserStorage();

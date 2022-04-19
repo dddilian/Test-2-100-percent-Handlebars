@@ -56,6 +56,74 @@ function onCreateRecepieSubmit(e) {
 
 }
 
+//!Edit profile
+function onEditProfileSubmit(e) {
+    e.preventDefault();
+
+    let formData = new FormData(document.forms.changeUserInfoForm);
+
+    let newUsername = formData.get("username");
+    let newAge = formData.get("age");
+    let newAddress = formData.get("address");
+    let newUserImage = formData.get("userImage");
+
+
+    if (newUsername.trim() == "" || newAge.trim() == "" || newAddress.trim() == "" || newUserImage.trim() == "") {
+
+        let editProfileInfoErrorP = document.getElementById("editProfileInfoErrorP");
+        editProfileInfoErrorP.style.display = "block";
+
+        setTimeout(() => {
+            editProfileInfoErrorP.style.display = "none";
+        }, 1500);
+
+        return;
+
+    } else {
+        userStorage.changeUserInfo(newUsername, newAge, newAddress, newUserImage);
+
+    }
+
+}
+
+//!Register
+function onRegisterSubmit(e) {
+    e.preventDefault();
+
+    let formData = new FormData(document.forms.registerForm);
+
+    let username = formData.get("regUsername");
+    let password = formData.get("regPassword");
+    let rePassword = formData.get("regRePassword");
+
+    let age = formData.get("regAge");
+    let address = formData.get("regAddress");
+    let userImage = formData.get("regImage");
+
+    if (username.trim() == "" || password.trim() == "" || rePassword.trim() == "" || age.trim() == "" || address.trim() == "" || userImage.trim() == "") { //ако някой от инпутите е празен стринг
+        showNotification("regErrorP", "All fields are requred!");
+        return;
+
+    } else { //ако не са празни стрингове - продължаваме проверките надолу
+
+        if (userStorage.existsUser(username)) { //проверяваме дали вече има такъв регистриран юзър
+            showNotification("regErrorP", "Username already taken!");
+            return;
+
+        } else { //ако името е свободно - проверяваме паролите дали са еднакви
+
+            if (password !== rePassword) {
+                showNotification("regErrorP", "Passwords don't match!");
+                return;
+
+            } else { //накрая - ако инпутите не са празни, ако името не е заето и ако паролите са еднакви - регистрирай юзъра и редиректни към #allRecepies
+                userStorage.addUser(username, password, age, address, userImage);
+                location.hash = "#allRecepies";
+            }
+        }
+    }
+};
+
 //!Login
 function onLoginSubmit(e) {
     e.preventDefault();
@@ -140,4 +208,17 @@ function cookRecepie(e) {
     //Get the id of the clicked recepie
     let recepieId = e.target.dataset.id;
     userManager.addToCookedRecepies(recepieId);
+}
+
+//!Show notification function
+function showNotification(elementId, message) {
+    console.log(elementId);
+    let element = document.getElementById(elementId);
+    element.style.display = "block";
+    element.textContent = message;
+
+    setTimeout(() => {
+        element.style.display = "none";
+    }, 1500);
+
 }

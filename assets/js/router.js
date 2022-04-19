@@ -60,7 +60,19 @@ function router(recepies) {
             break;
 
         case "myProfile":
+            //трябва обекта с coocked recepies в user, да стане масив от обекти, съсоящи се от recepie title и брой готвения
+            let coockedRecepies = [];
+            for (const title in context.user.coockedRecepies) {
+                let newObj = {
+                    title: title,
+                    timesCooked: context.user.coockedRecepies[title]
+                }
+                coockedRecepies.push(newObj);
+            }
 
+            context.coockedRecepies = coockedRecepies;
+            console.log(coockedRecepies);
+            console.log(context.user.address);
             break;
 
         case "login":

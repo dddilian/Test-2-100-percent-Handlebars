@@ -247,7 +247,8 @@ td {
 
 #loginErrorP,
 #regErrorP,
-#createRecErrorP {
+#createRecErrorP,
+#editProfileInfoErrorP {
     display: none;
 }
 
@@ -282,4 +283,8 @@ td {
 
 #logoutLoginRegister a:hover {
     color: #AE332E;
+}
+
+.timesCooked {
+    padding-left: 45px;
 }
