@@ -71,8 +71,8 @@ function router(recepies) {
             }
 
             context.coockedRecepies = coockedRecepies;
-            console.log(coockedRecepies);
-            console.log(context.user.address);
+            // console.log(coockedRecepies);
+            // console.log(context.user.address);
             break;
 
         case "login":
