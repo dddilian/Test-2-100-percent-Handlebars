@@ -17,7 +17,7 @@ function router(recepies) {
     };
 
 
-    const app = document.getElementById("app");
+    let mainContainer = document.getElementById("mainContainer");
     let hash = location.hash.slice(1);
 
     switch (hash) {
@@ -25,18 +25,13 @@ function router(recepies) {
         case "allRecepies":
 
             if (context.user) { //ако има логнат юзър
-
                 recepiesManager.allRecepies.forEach(rec => {
-                    console.log("FAdsf");
                     if (context.user.favoriteRecepies.includes(rec.id)) {
-                        console.log('sdfsd');
                         rec.isLiked = true;
                     } else {
                         rec.isLiked = false;
                     }
-
                 });
-
             }
 
             context.recepies = recepiesManager.allRecepies;
@@ -50,7 +45,6 @@ function router(recepies) {
                     rec.isLiked = true;
                     return rec;
                 }
-
             });
 
             break;
@@ -91,7 +85,6 @@ function router(recepies) {
     console.log(hash);
     let template = Handlebars.compile(document.getElementById(routes[hash]).innerHTML); //взимаме си темплейта от routes по path
 
-    app.innerHTML = template(context);
-
+    mainContainer.innerHTML = template(context);
 
 }

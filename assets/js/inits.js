@@ -189,18 +189,50 @@ function addOrRemove(e) {
 };
 
 
-//!Can't implement with 100% usage of Handlebars
+//!Name filtering
 function nameFiltering(e) {
-    console.log(e);
-    // let nameFilteredRecepies = recepiesManager.filterByName(e.target.value);
-    // console.log(nameFilteredRecepies);
-    // return nameFilteredRecepies;
+
+    let allRecepiesContainer = document.getElementById("allRecepies");
+
+    allRecepiesContainer.innerHTML = "";
+
+    let nameFilteredRecepies = recepiesManager.filterByName(e.target.value);
+
+    let recepieTemplate = Handlebars.compile(document.getElementById("recepie-template").innerHTML);
+
+    let filteredRecepiesHtml = "";
+    nameFilteredRecepies.forEach(recepie => {
+        filteredRecepiesHtml += recepieTemplate(recepie);
+    })
+
+    allRecepiesContainer.innerHTML = filteredRecepiesHtml;
+
+
+
+
 }
 
-//!Can't implement with 100% usage of Handlebars
+//!Ingredient filtering
 function ingredientFiltering(e) {
-    console.log(e);
-    // recepiesManager.filterByIngredient();
+    console.log(e.target.selectedOptions["0"].innerText);
+    let ingredient = e.target.selectedOptions["0"].innerText;
+    let allRecepiesContainer = document.getElementById("allRecepies");
+
+    allRecepiesContainer.innerHTML = "";
+
+    let ingredientFilteredRecepies = recepiesManager.filterByIngredient(ingredient);
+    console.log(ingredientFilteredRecepies);
+
+    let recepieTemplate = Handlebars.compile(document.getElementById("recepie-template").innerHTML);
+
+    let filteredRecepiesHtml = "";
+    ingredientFilteredRecepies.forEach(recepie => {
+        filteredRecepiesHtml += recepieTemplate(recepie);
+    })
+
+    allRecepiesContainer.innerHTML = filteredRecepiesHtml;
+
+
 }
 
 //!Cook recepie
