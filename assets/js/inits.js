@@ -167,6 +167,8 @@ function addOrRemove(e) {
     //Get the id of the clicked recepie
     let recepieId = e.target.dataset.id;
 
+    console.log(e.target);
+
     //If recepie is already liked and in favorites
     if (userManager.recepieIsLiked(recepieId)) {
 
@@ -192,46 +194,69 @@ function addOrRemove(e) {
 //!Name filtering
 function nameFiltering(e) {
 
-    let allRecepiesContainer = document.getElementById("allRecepies");
-
-    allRecepiesContainer.innerHTML = "";
-
-    let nameFilteredRecepies = recepiesManager.filterByName(e.target.value);
+    let nameFilteredRecepies;
 
     let recepieTemplate = Handlebars.compile(document.getElementById("recepie-template").innerHTML);
-
     let filteredRecepiesHtml = "";
-    nameFilteredRecepies.forEach(recepie => {
-        filteredRecepiesHtml += recepieTemplate(recepie);
-    })
 
-    allRecepiesContainer.innerHTML = filteredRecepiesHtml;
+    if (location.hash == "#favRecepies") {
+        let favRecepiesContainer = document.getElementById("favRecepies");
+        favRecepiesContainer.innerHTML = "";
+
+        nameFilteredRecepies = recepiesManager.allRecepies.filter(recepie => userManager.getUserInfo().favoriteRecepies.includes(recepie.id)).filter(recepie => recepie.title.includes(e.target.value))
+        nameFilteredRecepies.forEach(recepie => {
+            filteredRecepiesHtml += recepieTemplate(recepie);
+        })
 
 
+        favRecepiesContainer.innerHTML = filteredRecepiesHtml;
 
+    } else { //ако филтрираме в home page
+        let allRecepiesContainer = document.getElementById("allRecepies");
+        allRecepiesContainer.innerHTML = "";
 
-}
+        nameFilteredRecepies = recepiesManager.filterByName(e.target.value);
+
+        nameFilteredRecepies.forEach(recepie => {
+            filteredRecepiesHtml += recepieTemplate(recepie);
+        })
+
+        allRecepiesContainer.innerHTML = filteredRecepiesHtml;
+    }
+};
 
 //!Ingredient filtering
 function ingredientFiltering(e) {
     console.log(e.target.selectedOptions["0"].innerText);
     let ingredient = e.target.selectedOptions["0"].innerText;
-    let allRecepiesContainer = document.getElementById("allRecepies");
 
-    allRecepiesContainer.innerHTML = "";
-
-    let ingredientFilteredRecepies = recepiesManager.filterByIngredient(ingredient);
-    console.log(ingredientFilteredRecepies);
+    let ingredientFilteredRecepies;
 
     let recepieTemplate = Handlebars.compile(document.getElementById("recepie-template").innerHTML);
-
     let filteredRecepiesHtml = "";
-    ingredientFilteredRecepies.forEach(recepie => {
-        filteredRecepiesHtml += recepieTemplate(recepie);
-    })
 
-    allRecepiesContainer.innerHTML = filteredRecepiesHtml;
+    if (location.hash == "#favRecepies") {
+        let favRecepiesContainer = document.getElementById("favRecepies");
+        favRecepiesContainer.innerHTML = "";
+        ingredientFilteredRecepies = recepiesManager.allRecepies.filter(rec => userManager.getUserInfo().favoriteRecepies.includes(rec.id)).filter(rec => rec.ingredients.includes(ingredient));
 
+        ingredientFilteredRecepies.forEach(recepie => {
+            filteredRecepiesHtml += recepieTemplate(recepie);
+        })
+
+        favRecepiesContainer.innerHTML = filteredRecepiesHtml;
+
+    } else { //ако филтрираме в home page
+        let allRecepiesContainer = document.getElementById("allRecepies");
+        allRecepiesContainer.innerHTML = "";
+        ingredientFilteredRecepies = recepiesManager.filterByIngredient(ingredient);
+
+        ingredientFilteredRecepies.forEach(recepie => {
+            filteredRecepiesHtml += recepieTemplate(recepie);
+        })
+
+        allRecepiesContainer.innerHTML = filteredRecepiesHtml;
+    }
 
 }
 

@@ -239,7 +239,7 @@
 
     <!--! error page template -->
     <script type="text/x-handlebars-template" id="errorPage-template">
-        
+
         {{>header}}
 
         <div id="errorPage">
@@ -319,23 +319,13 @@
 
             <div class="recButtonsDiv">
               
-                {{#if isLiked}}
-                <button id="{{id}}" class="recBtn addFavBtn" data-id="{{id}}" onclick="addOrRemove(event)">
-                    <!-- {{#if isLiked}} -->
-                    Премахни от любими
-                    <!-- {{else}}
-                    Добави в любими -->
-                    <!-- {{/if}} -->
-                </button>
-                {{else}}
-                <button id="{{id}}" class="recBtn addFavBtn" data-id="{{id}}" onclick="addOrRemove(event)">
-                    <!-- {{#if isLiked}}
-                    Премахни от любими
-                    {{else}} -->
-                    Добави в любими
-                    <!-- {{/if}} -->
-                </button>
-               {{/if}}
+               <button id="{{id}}" class="recBtn addFavBtn" data-id="{{id}}" onclick="addOrRemove(event)">
+                    {{#if isLiked}}
+                        Премахни от любими
+                    {{else}}
+                        Добави в любими
+                    {{/if}}
+               </button>
 
                 <button class="recBtn cookBtn" data-id="{{id}}" onclick="cookRecepie(event)">Сготви</button>
                 
